@@ -95,10 +95,19 @@ final class PromoCell: UICollectionViewCell, DataDrivable {
 
     // MARK: - Managing the ViewModel
 
-    struct ViewModel: DataDrivenModel {
+    struct ViewModel: DataDrivenModel, Hashable {
         let image: UIImage?
         let title: String
         let action: Command
+
+        static func == (lhs: PromoCell.ViewModel, rhs: PromoCell.ViewModel) -> Bool {
+            lhs.image == rhs.image && lhs.title == rhs.title
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(image)
+            hasher.combine(title)
+        }
     }
 
     // MARK: - Managing the Constants

@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C0BD04C280FE9A5000441DE /* PromoViewModelsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BD04B280FE9A5000441DE /* PromoViewModelsBuilder.swift */; };
 		1C3A434E27BCA21900A9CDFF /* PromoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3A434D27BCA21900A9CDFF /* PromoCoordinator.swift */; };
 		1C3A435227BCA2FB00A9CDFF /* PromoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3A435127BCA2FB00A9CDFF /* PromoButton.swift */; };
 		1C3A435427BCDDC300A9CDFF /* UIView+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3A435327BCDDC300A9CDFF /* UIView+Animation.swift */; };
+		1C53E9C6281145580069CDCC /* DiffableDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 1C53E9C5281145580069CDCC /* DiffableDataSources */; };
 		1C583FA427C353130067D748 /* PromoPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C583FA327C353130067D748 /* PromoPresenterTests.swift */; };
 		1C583FA627C353E50067D748 /* TestPromoViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C583FA527C353E50067D748 /* TestPromoViewInput.swift */; };
 		1C583FAA27C356AC0067D748 /* TestPromoCollectionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C583FA927C356AC0067D748 /* TestPromoCollectionAdapter.swift */; };
@@ -60,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C0BD04B280FE9A5000441DE /* PromoViewModelsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoViewModelsBuilder.swift; sourceTree = "<group>"; };
 		1C3A434D27BCA21900A9CDFF /* PromoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCoordinator.swift; sourceTree = "<group>"; };
 		1C3A435127BCA2FB00A9CDFF /* PromoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoButton.swift; sourceTree = "<group>"; };
 		1C3A435327BCDDC300A9CDFF /* UIView+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animation.swift"; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C53E9C6281145580069CDCC /* DiffableDataSources in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,12 +214,13 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		1C763AC527BB67300077A1E4 /* Adapters */ = {
+		1C763AC527BB67300077A1E4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				1C763AC627BB67440077A1E4 /* PromoCollectionAdapter.swift */,
+				1C0BD04B280FE9A5000441DE /* PromoViewModelsBuilder.swift */,
 			);
-			path = Adapters;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		1C763AD627BBA6D80077A1E4 /* PromoDetails */ = {
@@ -316,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				1CD4619D27BA4F270020093F /* Interactor */,
+				1C763AC527BB67300077A1E4 /* Helpers */,
 				1CD4619727BA1E460020093F /* View */,
 				1CD4619527BA1A760020093F /* PromoContracts.swift */,
 				1CD4618D27BA191B0020093F /* PromoModuleFactory.swift */,
@@ -327,7 +333,6 @@
 		1CD4619727BA1E460020093F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1C763AC527BB67300077A1E4 /* Adapters */,
 				1C763AC227BB5C520077A1E4 /* Cells */,
 				1CD4619327BA19C10020093F /* PromoViewController.swift */,
 			);
@@ -375,6 +380,9 @@
 			dependencies = (
 			);
 			name = "mvp-data-driven-ui-demo";
+			packageProductDependencies = (
+				1C53E9C5281145580069CDCC /* DiffableDataSources */,
+			);
 			productName = "mvp-data-driven-ui-demo";
 			productReference = 1CD4615127BA18620020093F /* mvp-data-driven-ui-demo.app */;
 			productType = "com.apple.product-type.application";
@@ -448,6 +456,9 @@
 				Base,
 			);
 			mainGroup = 1CD4614827BA18620020093F;
+			packageReferences = (
+				1C53E9C4281145580069CDCC /* XCRemoteSwiftPackageReference "DiffableDataSources" */,
+			);
 			productRefGroup = 1CD4615227BA18620020093F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -502,6 +513,7 @@
 				1C763AE427BBA9F80077A1E4 /* PromoDetailsNetworkService.swift in Sources */,
 				1CD4615527BA18620020093F /* AppDelegate.swift in Sources */,
 				1C763ADA27BBA8DF0077A1E4 /* PromoDetailsInteractor.swift in Sources */,
+				1C0BD04C280FE9A5000441DE /* PromoViewModelsBuilder.swift in Sources */,
 				1C763AD827BBA6F20077A1E4 /* PromoDetailsModuleFactory.swift in Sources */,
 				1CD4619427BA19C10020093F /* PromoViewController.swift in Sources */,
 				1CD4618E27BA191B0020093F /* PromoModuleFactory.swift in Sources */,
@@ -876,6 +888,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1C53E9C4281145580069CDCC /* XCRemoteSwiftPackageReference "DiffableDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ra1028/DiffableDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1C53E9C5281145580069CDCC /* DiffableDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C53E9C4281145580069CDCC /* XCRemoteSwiftPackageReference "DiffableDataSources" */;
+			productName = DiffableDataSources;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1CD4614927BA18620020093F /* Project object */;
 }

@@ -4,6 +4,7 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
     private let interactor: PromoInteractorInput
     unowned let view: PromoViewInput
     private let promoCollectionAdapter: DataDrivable
+    private let viewModelsBuilder: PromoViewModelsBuilder
     weak var output: PromoModuleOutput?
 
     // MARK: - Managing the Initialisation
@@ -12,19 +13,22 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
         interactor: PromoInteractorInput,
         view: PromoViewInput,
         collectionAdapter: DataDrivable,
+        viewModelsBuilder: PromoViewModelsBuilder,
         output: PromoModuleOutput?
     ) {
         self.interactor = interactor
         self.view = view
         self.promoCollectionAdapter = collectionAdapter
+        self.viewModelsBuilder = viewModelsBuilder
         self.output = output
     }
 
     // MARK: - Conforming of the PromoViewOutput
 
     func viewDidLoad() {
-        let viewModel = makeViewModel(isFetchingFailed: false)
-        view.render(model: viewModel)
+        viewModelsBuilder.makeViewModel(isFetchingFailed: false) { [weak self] viewModel in
+            self?.view.render(model: viewModel)
+        }
 
         interactor.fetchPromos()
     }
@@ -32,37 +36,22 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
     // MARK: - Conforming of the PromoInteractorOutput
 
     func didFetchPromos(_ promos: [Promo]) {
-        let viewModel = makeViewModel(isFetchingFailed: false)
-        view.render(model: viewModel)
+        viewModelsBuilder.makeViewModel(isFetchingFailed: false) { [weak self] viewModel in
+            self?.view.render(model: viewModel)
+        }
 
-        let adapterViewModel = makeAdapterViewModel(from: promos)
-        promoCollectionAdapter.render(model: adapterViewModel)
+        viewModelsBuilder.makeAdapterViewModel(
+            from: promos,
+            commandAction: { [weak self] in self?.goToPromoDetails(with: $0) }
+        ) { [weak self] adapterViewModel in
+            self?.promoCollectionAdapter.render(model: adapterViewModel)
+        }
     }
 
     func fetchingDidFail(with error: Error) {
-        let viewModel = makeViewModel(isFetchingFailed: true)
-        view.render(model: viewModel)
-    }
-
-    // MARK: - Making the ViewModels
-
-    private func makeViewModel(isFetchingFailed: Bool) -> PromoViewController.ViewModel {
-        PromoViewController.ViewModel(
-            title: "Promo",
-            dataState: isFetchingFailed ? .failed : .default
-        )
-    }
-
-    private func makeAdapterViewModel(from promos: [Promo]) -> PromoCollectionAdapter.ViewModel {
-        let items = promos.map { promo in
-            PromoCell.ViewModel(
-                image: UIImage(contentsOfFile: promo.imageURL.path),
-                title: promo.title,
-                action: Command { [weak self] in self?.goToPromoDetails(with: promo) }
-            )
+        viewModelsBuilder.makeViewModel(isFetchingFailed: true) { [weak self] viewModel in
+            self?.view.render(model: viewModel)
         }
-
-        return PromoCollectionAdapter.ViewModel(items: items)
     }
 
     // MARK: - Managing the Routing

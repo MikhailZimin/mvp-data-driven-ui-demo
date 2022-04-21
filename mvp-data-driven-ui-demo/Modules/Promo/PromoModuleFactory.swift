@@ -5,11 +5,13 @@ enum PromoModuleFactory {
 
         let viewController = PromoViewController()
         let collectionAdapter = PromoCollectionAdapter(collectionView: viewController.collectionView)
+        let viewModelsBuilder = PromoViewModelsBuilder()
 
         let presenter = PromoPresenter(
             interactor: interactor,
             view: viewController,
             collectionAdapter: collectionAdapter,
+            viewModelsBuilder: viewModelsBuilder,
             output: output
         )
 
