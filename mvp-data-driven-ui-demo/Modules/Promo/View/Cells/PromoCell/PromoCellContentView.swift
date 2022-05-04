@@ -1,8 +1,8 @@
 import UIKit
 
-final class PromoCell: UICollectionViewCell, DataDrivable {
+final class PromoCellContentView: UIView, UIContentView, DataDrivable {
     // инкапсуляция настройки вью в месте, где она создается
-    // уменьшает и делает код понятнее в методах на подобии setupView()
+    // уменьшает и делает код понятнее в методах типа setupView()
     // при необходимости можно использовать lazy var
     private let containerStackView: UIStackView = {
         let stackView = UIStackView()
@@ -21,6 +21,20 @@ final class PromoCell: UICollectionViewCell, DataDrivable {
 
         return label
     }()
+
+    private var currentConfiguration = ViewModel(imageURL: nil, title: "", action: nil)
+
+    var configuration: UIContentConfiguration {
+        get {
+            currentConfiguration
+        }
+
+        set {
+            guard let newConfiguration = newValue as? ViewModel else { return }
+
+            render(model: newConfiguration)
+        }
+    }
 
     // MARK: - Managing the Initialization
 
@@ -47,7 +61,7 @@ final class PromoCell: UICollectionViewCell, DataDrivable {
     }
 
     private func setupSubviews() {
-        contentView.addSubview(containerStackView)
+        addSubview(containerStackView)
 
         [
             promoImageView,
@@ -64,14 +78,14 @@ final class PromoCell: UICollectionViewCell, DataDrivable {
 
     private var containerStackViewConstraints: [NSLayoutConstraint] {
         [
-            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+            containerStackView.topAnchor.constraint(equalTo: topAnchor,
                                                     constant: Constants.containerStackViewOffset),
-            containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+            containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor,
                                                         constant: Constants.containerStackViewOffset),
-            contentView.trailingAnchor.constraint(equalTo: containerStackView.trailingAnchor,
-                                                  constant: Constants.containerStackViewOffset),
-            contentView.bottomAnchor.constraint(equalTo: containerStackView.bottomAnchor,
-                                                constant: Constants.containerStackViewOffset)
+            trailingAnchor.constraint(equalTo: containerStackView.trailingAnchor,
+                                      constant: Constants.containerStackViewOffset),
+            bottomAnchor.constraint(equalTo: containerStackView.bottomAnchor,
+                                    constant: Constants.containerStackViewOffset)
         ]
     }
 
@@ -89,25 +103,10 @@ final class PromoCell: UICollectionViewCell, DataDrivable {
     func render(model: DataDrivenModel) {
         guard let model = model as? ViewModel else { return }
 
-        promoImageView.image = model.image
+        currentConfiguration = model
+
+        model.imageURL.flatMap { promoImageView.image = UIImage(contentsOfFile: $0.path) }
         promoTitleLabel.text = model.title
-    }
-
-    // MARK: - Managing the ViewModel
-
-    struct ViewModel: DataDrivenModel, Hashable {
-        let image: UIImage?
-        let title: String
-        let action: Command
-
-        static func == (lhs: PromoCell.ViewModel, rhs: PromoCell.ViewModel) -> Bool {
-            lhs.image == rhs.image && lhs.title == rhs.title
-        }
-
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(image)
-            hasher.combine(title)
-        }
     }
 
     // MARK: - Managing the Constants

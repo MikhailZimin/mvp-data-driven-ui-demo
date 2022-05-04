@@ -12,9 +12,7 @@ protocol PromoDetailsInteractorOutput: AnyObject {
     func acceptingDidFail(with error: Error)
 }
 
-protocol PromoDetailsViewInput: DataDrivable {
-
-}
+protocol PromoDetailsViewInput: AnyObject, DataDrivable { }
 
 protocol PromoDetailsViewOutput {
     func viewDidLoad()

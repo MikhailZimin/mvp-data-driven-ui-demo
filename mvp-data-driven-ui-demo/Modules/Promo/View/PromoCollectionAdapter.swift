@@ -1,7 +1,7 @@
 import UIKit
 import DiffableDataSources
 
-private typealias PromoDataSource = CollectionViewDiffableDataSource<Section, PromoCell.ViewModel>
+private typealias PromoDataSource = CollectionViewDiffableDataSource<Section, PromoCellContentView.ViewModel>
 
 private enum Section {
     case main
@@ -10,12 +10,14 @@ private enum Section {
 final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDelegate {
     private unowned let collectionView: UICollectionView
 
+    // использование Modern cell configuration
+    private let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, PromoCellContentView.ViewModel> { cell, indexPath, model in
+        cell.contentConfiguration = model
+    }
+
     // использование CollectionViewDiffableDataSource
     private lazy var cellProvider: PromoDataSource.CellProvider = { collectionView, indexPath, model in
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PromoCell.description(), for: indexPath)
-        (cell as? PromoCell)?.render(model: model)
-
-        return cell
+        collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: model)
     }
 
     private lazy var dataSource = PromoDataSource(collectionView: collectionView, cellProvider: cellProvider)
@@ -27,7 +29,7 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
         collectionView.delegate = self
         collectionView.dataSource = dataSource
 
-        collectionView.register(PromoCell.self, forCellWithReuseIdentifier: PromoCell.description())
+        collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: PromoCellContentView.description())
         collectionView.collectionViewLayout = createLayout()
     }
 
@@ -59,7 +61,7 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
     func render(model: DataDrivenModel) {
         guard let model = model as? ViewModel else { return }
 
-        var snapshot = DiffableDataSourceSnapshot<Section, PromoCell.ViewModel>()
+        var snapshot = DiffableDataSourceSnapshot<Section, PromoCellContentView.ViewModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(model.items)
         dataSource.apply(snapshot)
@@ -68,17 +70,17 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
         imitateChanging(with: model.items)
     }
 
-    private func imitateChanging(with items: [PromoCell.ViewModel]) {
-        var completion: (([PromoCell.ViewModel]) -> Void)?
+    private func imitateChanging(with items: [PromoCellContentView.ViewModel]) {
+        var completion: (([PromoCellContentView.ViewModel]) -> Void)?
 
         completion = { [weak self] items in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 guard items.count > 1 else { return }
 
                 let count = items.count / 2
-                let items: [PromoCell.ViewModel] = items.dropLast(count)
+                let items: [PromoCellContentView.ViewModel] = items.dropLast(count)
 
-                var snapshot = DiffableDataSourceSnapshot<Section, PromoCell.ViewModel>()
+                var snapshot = DiffableDataSourceSnapshot<Section, PromoCellContentView.ViewModel>()
                 snapshot.appendSections([.main])
                 snapshot.appendItems(items)
 
@@ -93,13 +95,13 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
     // MARK: - Conforming of the UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        dataSource.itemIdentifier(for: indexPath)?.action.execute()
+        dataSource.itemIdentifier(for: indexPath)?.action?.execute()
     }
 
     // MARK: - Managing the ViewModel
 
     struct ViewModel: DataDrivenModel {
-        let items: [PromoCell.ViewModel]
+        let items: [PromoCellContentView.ViewModel]
     }
 
     // MARK: - Managing the Constants

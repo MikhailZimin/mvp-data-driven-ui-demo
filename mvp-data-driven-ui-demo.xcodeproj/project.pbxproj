@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C0BD04C280FE9A5000441DE /* PromoViewModelsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BD04B280FE9A5000441DE /* PromoViewModelsBuilder.swift */; };
+		1C0BD04C280FE9A5000441DE /* PromoViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0BD04B280FE9A5000441DE /* PromoViewModelBuilder.swift */; };
 		1C3A434E27BCA21900A9CDFF /* PromoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3A434D27BCA21900A9CDFF /* PromoCoordinator.swift */; };
 		1C3A435227BCA2FB00A9CDFF /* PromoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3A435127BCA2FB00A9CDFF /* PromoButton.swift */; };
 		1C3A435427BCDDC300A9CDFF /* UIView+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3A435327BCDDC300A9CDFF /* UIView+Animation.swift */; };
@@ -16,7 +16,9 @@
 		1C583FA627C353E50067D748 /* TestPromoViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C583FA527C353E50067D748 /* TestPromoViewInput.swift */; };
 		1C583FAA27C356AC0067D748 /* TestPromoCollectionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C583FA927C356AC0067D748 /* TestPromoCollectionAdapter.swift */; };
 		1C583FB027C375950067D748 /* TestPromoNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C583FAF27C375950067D748 /* TestPromoNetworkService.swift */; };
-		1C763AC427BB5C5F0077A1E4 /* PromoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C763AC327BB5C5F0077A1E4 /* PromoCell.swift */; };
+		1C656C7628224B50006EF3E4 /* PromoCellContentView.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C656C7528224B50006EF3E4 /* PromoCellContentView.ViewModel.swift */; };
+		1C656C7928224EE7006EF3E4 /* PromoDetailsViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C656C7828224EE7006EF3E4 /* PromoDetailsViewModelBuilder.swift */; };
+		1C763AC427BB5C5F0077A1E4 /* PromoCellContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C763AC327BB5C5F0077A1E4 /* PromoCellContentView.swift */; };
 		1C763AC727BB67440077A1E4 /* PromoCollectionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C763AC627BB67440077A1E4 /* PromoCollectionAdapter.swift */; };
 		1C763AD827BBA6F20077A1E4 /* PromoDetailsModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C763AD727BBA6F20077A1E4 /* PromoDetailsModuleFactory.swift */; };
 		1C763ADA27BBA8DF0077A1E4 /* PromoDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C763AD927BBA8DF0077A1E4 /* PromoDetailsInteractor.swift */; };
@@ -62,7 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1C0BD04B280FE9A5000441DE /* PromoViewModelsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoViewModelsBuilder.swift; sourceTree = "<group>"; };
+		1C0BD04B280FE9A5000441DE /* PromoViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoViewModelBuilder.swift; sourceTree = "<group>"; };
 		1C3A434D27BCA21900A9CDFF /* PromoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCoordinator.swift; sourceTree = "<group>"; };
 		1C3A435127BCA2FB00A9CDFF /* PromoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoButton.swift; sourceTree = "<group>"; };
 		1C3A435327BCDDC300A9CDFF /* UIView+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animation.swift"; sourceTree = "<group>"; };
@@ -70,7 +72,9 @@
 		1C583FA527C353E50067D748 /* TestPromoViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPromoViewInput.swift; sourceTree = "<group>"; };
 		1C583FA927C356AC0067D748 /* TestPromoCollectionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPromoCollectionAdapter.swift; sourceTree = "<group>"; };
 		1C583FAF27C375950067D748 /* TestPromoNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPromoNetworkService.swift; sourceTree = "<group>"; };
-		1C763AC327BB5C5F0077A1E4 /* PromoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCell.swift; sourceTree = "<group>"; };
+		1C656C7528224B50006EF3E4 /* PromoCellContentView.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellContentView.ViewModel.swift; sourceTree = "<group>"; };
+		1C656C7828224EE7006EF3E4 /* PromoDetailsViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoDetailsViewModelBuilder.swift; sourceTree = "<group>"; };
+		1C763AC327BB5C5F0077A1E4 /* PromoCellContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCellContentView.swift; sourceTree = "<group>"; };
 		1C763AC627BB67440077A1E4 /* PromoCollectionAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCollectionAdapter.swift; sourceTree = "<group>"; };
 		1C763AD727BBA6F20077A1E4 /* PromoDetailsModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoDetailsModuleFactory.swift; sourceTree = "<group>"; };
 		1C763AD927BBA8DF0077A1E4 /* PromoDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoDetailsInteractor.swift; sourceTree = "<group>"; };
@@ -206,10 +210,27 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		1C656C7428224AF6006EF3E4 /* PromoCell */ = {
+			isa = PBXGroup;
+			children = (
+				1C763AC327BB5C5F0077A1E4 /* PromoCellContentView.swift */,
+				1C656C7528224B50006EF3E4 /* PromoCellContentView.ViewModel.swift */,
+			);
+			path = PromoCell;
+			sourceTree = "<group>";
+		};
+		1C656C7728224EB2006EF3E4 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1C656C7828224EE7006EF3E4 /* PromoDetailsViewModelBuilder.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		1C763AC227BB5C520077A1E4 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				1C763AC327BB5C5F0077A1E4 /* PromoCell.swift */,
+				1C656C7428224AF6006EF3E4 /* PromoCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -217,8 +238,7 @@
 		1C763AC527BB67300077A1E4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				1C763AC627BB67440077A1E4 /* PromoCollectionAdapter.swift */,
-				1C0BD04B280FE9A5000441DE /* PromoViewModelsBuilder.swift */,
+				1C0BD04B280FE9A5000441DE /* PromoViewModelBuilder.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -226,6 +246,7 @@
 		1C763AD627BBA6D80077A1E4 /* PromoDetails */ = {
 			isa = PBXGroup;
 			children = (
+				1C656C7728224EB2006EF3E4 /* Helpers */,
 				1C3A434F27BCA27700A9CDFF /* View */,
 				1C763ADF27BBA8FC0077A1E4 /* Interactor */,
 				1C763AD727BBA6F20077A1E4 /* PromoDetailsModuleFactory.swift */,
@@ -335,6 +356,7 @@
 			children = (
 				1C763AC227BB5C520077A1E4 /* Cells */,
 				1CD4619327BA19C10020093F /* PromoViewController.swift */,
+				1C763AC627BB67440077A1E4 /* PromoCollectionAdapter.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -508,14 +530,16 @@
 				1C763AC727BB67440077A1E4 /* PromoCollectionAdapter.swift in Sources */,
 				1C763ADC27BBA8E60077A1E4 /* PromoDetailsPresenter.swift in Sources */,
 				1CD461AA27BA54FC0020093F /* Promo.swift in Sources */,
+				1C656C7928224EE7006EF3E4 /* PromoDetailsViewModelBuilder.swift in Sources */,
 				1C763ADE27BBA8F00077A1E4 /* PromoDetailsViewController.swift in Sources */,
 				1CD4619027BA19950020093F /* PromoInteractor.swift in Sources */,
 				1C763AE427BBA9F80077A1E4 /* PromoDetailsNetworkService.swift in Sources */,
 				1CD4615527BA18620020093F /* AppDelegate.swift in Sources */,
 				1C763ADA27BBA8DF0077A1E4 /* PromoDetailsInteractor.swift in Sources */,
-				1C0BD04C280FE9A5000441DE /* PromoViewModelsBuilder.swift in Sources */,
+				1C0BD04C280FE9A5000441DE /* PromoViewModelBuilder.swift in Sources */,
 				1C763AD827BBA6F20077A1E4 /* PromoDetailsModuleFactory.swift in Sources */,
 				1CD4619427BA19C10020093F /* PromoViewController.swift in Sources */,
+				1C656C7628224B50006EF3E4 /* PromoCellContentView.ViewModel.swift in Sources */,
 				1CD4618E27BA191B0020093F /* PromoModuleFactory.swift in Sources */,
 				1CD4619A27BA20340020093F /* Command.swift in Sources */,
 				1C763AE127BBA9200077A1E4 /* PromoDetailsContracts.swift in Sources */,
@@ -523,7 +547,7 @@
 				1CD4619227BA19AC0020093F /* PromoPresenter.swift in Sources */,
 				1CD4615727BA18620020093F /* SceneDelegate.swift in Sources */,
 				1C3A434E27BCA21900A9CDFF /* PromoCoordinator.swift in Sources */,
-				1C763AC427BB5C5F0077A1E4 /* PromoCell.swift in Sources */,
+				1C763AC427BB5C5F0077A1E4 /* PromoCellContentView.swift in Sources */,
 				1C3A435227BCA2FB00A9CDFF /* PromoButton.swift in Sources */,
 				1CD461A327BA511A0020093F /* PromoNetworkService.swift in Sources */,
 				1CD4619C27BA2BAE0020093F /* DataDriven.swift in Sources */,

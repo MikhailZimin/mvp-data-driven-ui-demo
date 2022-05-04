@@ -1,5 +1,5 @@
 protocol DataDrivenModel { }
 
-protocol DataDrivable: AnyObject {
+protocol DataDrivable {
     func render(model: DataDrivenModel)
 }

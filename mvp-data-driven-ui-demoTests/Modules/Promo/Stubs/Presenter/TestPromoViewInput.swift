@@ -13,12 +13,12 @@ final class TestPromoViewInput: PromoViewInput {
     }
 
     var wasRenderMethodCalledCorrectly = false
-    func render(model: DataDrivenModel) {
+    func render(model: PromoViewController.ViewModel) {
         renderCallCount += 1
 
         guard renderCallCount == 2 else { return }
 
-        wasRenderMethodCalledCorrectly = model is PromoViewController.ViewModel && Thread.isMainThread
+        wasRenderMethodCalledCorrectly = Thread.isMainThread
         expectation?.fulfill()
     }
 }

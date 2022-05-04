@@ -1,9 +1,9 @@
 import UIKit
 
-struct PromoViewModelsBuilder {
+struct PromoViewModelBuilder {
     // предложение выносить работу билдеров из main queue
     private let workingQueue = DispatchQueue(
-        label: "com.mz.mvp-data-driven-ui-demo.PromoViewModelsBuilderQueue",
+        label: "com.mz.mvp-data-driven-ui-demo.PromoViewModelBuilderQueue",
         attributes: .concurrent
     )
 
@@ -27,8 +27,8 @@ struct PromoViewModelsBuilder {
     ) {
         workingQueue.async {
             let items = promos.map { promo in
-                PromoCell.ViewModel(
-                    image: UIImage(contentsOfFile: promo.imageURL.path),
+                PromoCellContentView.ViewModel(
+                    imageURL: promo.imageURL,
                     title: promo.title,
                     action: Command { commandAction(promo) }
                 )

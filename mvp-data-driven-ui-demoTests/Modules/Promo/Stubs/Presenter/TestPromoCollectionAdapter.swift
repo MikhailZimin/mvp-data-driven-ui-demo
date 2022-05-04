@@ -6,8 +6,8 @@ final class TestPromoCollectionAdapter: DataDrivable {
     var expectation: XCTestExpectation?
 
     var wasRenderMethodCalledCorrectly = false
-    func render(model: DataDrivenModel) {
-        wasRenderMethodCalledCorrectly = model is PromoCollectionAdapter.ViewModel && Thread.isMainThread
+    func render(model: PromoCollectionAdapter.ViewModel) {
+        wasRenderMethodCalledCorrectly = Thread.isMainThread
         expectation?.fulfill()
     }
 }

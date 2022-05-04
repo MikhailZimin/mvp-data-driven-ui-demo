@@ -4,7 +4,7 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
     private let interactor: PromoInteractorInput
     unowned let view: PromoViewInput
     private let promoCollectionAdapter: DataDrivable
-    private let viewModelsBuilder: PromoViewModelsBuilder
+    private let viewModelBuilder: PromoViewModelBuilder
     weak var output: PromoModuleOutput?
 
     // MARK: - Managing the Initialisation
@@ -13,20 +13,20 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
         interactor: PromoInteractorInput,
         view: PromoViewInput,
         collectionAdapter: DataDrivable,
-        viewModelsBuilder: PromoViewModelsBuilder,
+        viewModelBuilder: PromoViewModelBuilder,
         output: PromoModuleOutput?
     ) {
         self.interactor = interactor
         self.view = view
         self.promoCollectionAdapter = collectionAdapter
-        self.viewModelsBuilder = viewModelsBuilder
+        self.viewModelBuilder = viewModelBuilder
         self.output = output
     }
 
     // MARK: - Conforming of the PromoViewOutput
 
     func viewDidLoad() {
-        viewModelsBuilder.makeViewModel(isFetchingFailed: false) { [weak self] viewModel in
+        viewModelBuilder.makeViewModel(isFetchingFailed: false) { [weak self] viewModel in
             self?.view.render(model: viewModel)
         }
 
@@ -36,11 +36,11 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
     // MARK: - Conforming of the PromoInteractorOutput
 
     func didFetchPromos(_ promos: [Promo]) {
-        viewModelsBuilder.makeViewModel(isFetchingFailed: false) { [weak self] viewModel in
+        viewModelBuilder.makeViewModel(isFetchingFailed: false) { [weak self] viewModel in
             self?.view.render(model: viewModel)
         }
 
-        viewModelsBuilder.makeAdapterViewModel(
+        viewModelBuilder.makeAdapterViewModel(
             from: promos,
             commandAction: { [weak self] in self?.goToPromoDetails(with: $0) }
         ) { [weak self] adapterViewModel in
@@ -49,7 +49,7 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
     }
 
     func fetchingDidFail(with error: Error) {
-        viewModelsBuilder.makeViewModel(isFetchingFailed: true) { [weak self] viewModel in
+        viewModelBuilder.makeViewModel(isFetchingFailed: true) { [weak self] viewModel in
             self?.view.render(model: viewModel)
         }
     }

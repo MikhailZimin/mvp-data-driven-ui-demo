@@ -1,9 +1,5 @@
 import Foundation
 
-// в идеале, получать тут Decodable DTO и отдавать их в интерактор
-// а далее DTOParser конвертирует в нужные Entity
-// в DTOParser прописываются сценарии конвертации, обрабатываются ошибочные ситуации, опциональные и не опциональные поля и тп
-
 protocol PromoNetworkServiceInput {
     func fetchPromos(_ completion: @escaping (Result<[Promo], Error>) -> Void)
 }

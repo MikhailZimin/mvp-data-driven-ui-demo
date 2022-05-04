@@ -17,7 +17,7 @@ protocol PromoInteractorOutput: AnyObject {
     func fetchingDidFail(with error: Error)
 }
 
-protocol PromoViewInput: DataDrivable {
+protocol PromoViewInput: AnyObject, DataDrivable {
     var collectionView: UICollectionView { get }
 }
 
