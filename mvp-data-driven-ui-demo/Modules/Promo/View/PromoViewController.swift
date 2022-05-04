@@ -71,26 +71,7 @@ final class PromoViewController: UIViewController, PromoViewInput {
 
     struct ViewModel: DataDrivenModel {
         let title: String
-        let dataState: DataState
-
-        enum DataState {
-            case `default`
-            case failed
-        }
-
-        // призмы
-        // конвертируют состояния в проперти
-        var backgroundColor: UIColor {
-            switch dataState {
-            case .default:
-                return .darkGray
-            case .failed:
-                return .systemRed
-            }
-        }
-
-        var isCollectionHidden: Bool {
-            dataState == .failed
-        }
+        var backgroundColor: UIColor
+        var isCollectionHidden: Bool
     }
 }

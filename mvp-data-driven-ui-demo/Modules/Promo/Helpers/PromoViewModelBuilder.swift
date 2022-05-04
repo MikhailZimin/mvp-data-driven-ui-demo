@@ -11,7 +11,8 @@ struct PromoViewModelBuilder {
         workingQueue.async {
             let model = PromoViewController.ViewModel(
                 title: "Promo",
-                dataState: isFetchingFailed ? .failed : .default
+                backgroundColor: isFetchingFailed ? .systemRed : .darkGray,
+                isCollectionHidden: isFetchingFailed
             )
 
             DispatchQueue.main.async {

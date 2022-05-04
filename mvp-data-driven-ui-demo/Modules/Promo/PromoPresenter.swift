@@ -51,6 +51,11 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
     func fetchingDidFail(with error: Error) {
         viewModelBuilder.makeViewModel(isFetchingFailed: true) { [weak self] viewModel in
             self?.view.render(model: viewModel)
+
+            // mock retry
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self?.interactor.fetchPromos()
+            }
         }
     }
 
