@@ -9,6 +9,8 @@ protocol PromoModuleOutput: AnyObject {
 }
 
 protocol PromoInteractorInput {
+    var canFetchNextPage: Bool { get }
+
     func fetchPromos()
 }
 

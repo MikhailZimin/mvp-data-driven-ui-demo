@@ -42,7 +42,8 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
 
         viewModelBuilder.makeAdapterViewModel(
             from: promos,
-            commandAction: { [weak self] in self?.goToPromoDetails(with: $0) }
+            onItemTapCommand: CommandWith<Promo> { [weak self] in self?.goToPromoDetails(with: $0) },
+            onScrollToEndCommand: interactor.canFetchNextPage ? Command { [weak self] in self?.handleOnScrollToEndAction() } : nil
         ) { [weak self] adapterViewModel in
             self?.promoCollectionAdapter.render(model: adapterViewModel)
         }
@@ -57,6 +58,10 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
                 self?.interactor.fetchPromos()
             }
         }
+    }
+
+    private func handleOnScrollToEndAction() {
+        interactor.fetchPromos()
     }
 
     // MARK: - Managing the Routing

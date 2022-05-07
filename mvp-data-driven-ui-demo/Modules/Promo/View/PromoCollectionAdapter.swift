@@ -9,18 +9,31 @@ private enum Section {
 
 final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDelegate {
     private unowned let collectionView: UICollectionView
+    private var hasFooter = true
+    private var onScrollToEndAction: Command?
 
     // использование Modern cell configuration
     private let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, PromoCellContentView.ViewModel> { cell, indexPath, model in
         cell.contentConfiguration = model
     }
 
+    private let footerRegistration = UICollectionView.SupplementaryRegistration<PromoListFooterView>(elementKind: PromoListFooterView.description()) { _, _, _ in }
+
     // использование CollectionViewDiffableDataSource
     private lazy var cellProvider: PromoDataSource.CellProvider = { collectionView, indexPath, model in
         collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: model)
     }
 
-    private lazy var dataSource = PromoDataSource(collectionView: collectionView, cellProvider: cellProvider)
+    private lazy var footerProvider: PromoDataSource.SupplementaryViewProvider = { collectionView, _, indexPath in
+        collectionView.dequeueConfiguredReusableSupplementary(using: self.footerRegistration, for: indexPath)
+    }
+
+    private lazy var dataSource: PromoDataSource = {
+        let dataSource = PromoDataSource(collectionView: collectionView, cellProvider: cellProvider)
+        dataSource.supplementaryViewProvider = footerProvider
+
+        return dataSource
+    }()
 
     init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -28,8 +41,6 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
 
         collectionView.delegate = self
         collectionView.dataSource = dataSource
-
-        collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: PromoCellContentView.description())
         collectionView.collectionViewLayout = createLayout()
     }
 
@@ -37,23 +48,33 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
 
     // использование UICollectionViewCompositionalLayout
     private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        UICollectionViewCompositionalLayout { [weak self] _, _ in
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(200))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 3)
-        group.interItemSpacing = .fixed(Constants.columnSpacing)
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(200))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 3)
+            group.interItemSpacing = .fixed(Constants.columnSpacing)
 
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = Constants.rowSpacing
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = Constants.rowSpacing
 
-        let layout = UICollectionViewCompositionalLayout(section: section)
+            if self?.hasFooter == true {
+                let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+                let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: footerSize,
+                    elementKind: PromoListFooterView.description(),
+                    alignment: .bottom
+                )
+                section.boundarySupplementaryItems = [sectionFooter]
+            }
 
-        return layout
+            return section
+        }
     }
 
     // MARK: - Conforming of the DataDrivable
@@ -61,35 +82,13 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
     func render(model: DataDrivenModel) {
         guard let model = model as? ViewModel else { return }
 
+        hasFooter = model.hasFooter
+        onScrollToEndAction = model.onScrollToEndAction
+
         var snapshot = DiffableDataSourceSnapshot<Section, PromoCellContentView.ViewModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(model.items)
         dataSource.apply(snapshot)
-
-        // визуальная имитация изменений
-        imitateChanging(with: model.items)
-    }
-
-    private func imitateChanging(with items: [PromoCellContentView.ViewModel]) {
-        var completion: (([PromoCellContentView.ViewModel]) -> Void)?
-
-        completion = { [weak self] items in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                guard items.count > 1 else { return }
-
-                let count = items.count / 2
-                let items: [PromoCellContentView.ViewModel] = items.dropLast(count)
-
-                var snapshot = DiffableDataSourceSnapshot<Section, PromoCellContentView.ViewModel>()
-                snapshot.appendSections([.main])
-                snapshot.appendItems(items)
-
-                self?.dataSource.apply(snapshot)
-                completion?(items)
-            }
-        }
-
-        completion?(items)
     }
 
     // MARK: - Conforming of the UICollectionViewDelegate
@@ -98,10 +97,21 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
         dataSource.itemIdentifier(for: indexPath)?.action?.execute()
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        (view as? PromoListFooterView)?.startAnimating()
+        onScrollToEndAction?.execute()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        (view as? PromoListFooterView)?.stopAnimating()
+    }
+
     // MARK: - Managing the ViewModel
 
     struct ViewModel: DataDrivenModel {
         let items: [PromoCellContentView.ViewModel]
+        let hasFooter: Bool
+        let onScrollToEndAction: Command?
     }
 
     // MARK: - Managing the Constants

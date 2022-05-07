@@ -23,7 +23,8 @@ struct PromoViewModelBuilder {
 
     func makeAdapterViewModel(
         from promos: [Promo],
-        commandAction: @escaping (Promo) -> Void,
+        onItemTapCommand: CommandWith<Promo>,
+        onScrollToEndCommand: Command?,
         _ completion: @escaping (PromoCollectionAdapter.ViewModel) -> Void
     ) {
         workingQueue.async {
@@ -31,12 +32,18 @@ struct PromoViewModelBuilder {
                 PromoCellContentView.ViewModel(
                     imageURL: promo.imageURL,
                     title: promo.title,
-                    action: Command { commandAction(promo) }
+                    action: Command { onItemTapCommand.execute(with: promo) }
                 )
             }
 
+            let model = PromoCollectionAdapter.ViewModel(
+                items: items,
+                hasFooter: onScrollToEndCommand != nil,
+                onScrollToEndAction: onScrollToEndCommand
+            )
+
             DispatchQueue.main.async {
-                completion(PromoCollectionAdapter.ViewModel(items: items))
+                completion(model)
             }
         }
     }
