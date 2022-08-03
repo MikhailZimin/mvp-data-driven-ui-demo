@@ -3,7 +3,7 @@ import UIKit
 final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
     private let interactor: PromoInteractorInput
     unowned let view: PromoViewInput
-    private let promoCollectionAdapter: DataDrivable
+    private let promoCollectionAdapter: PromoCollectionAdapterInput
     private let viewModelBuilder: PromoViewModelBuilder
     weak var output: PromoModuleOutput?
 
@@ -12,7 +12,7 @@ final class PromoPresenter: PromoViewOutput, PromoInteractorOutput {
     init(
         interactor: PromoInteractorInput,
         view: PromoViewInput,
-        collectionAdapter: DataDrivable,
+        collectionAdapter: PromoCollectionAdapterInput,
         viewModelBuilder: PromoViewModelBuilder,
         output: PromoModuleOutput?
     ) {

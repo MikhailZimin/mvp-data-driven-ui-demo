@@ -112,9 +112,7 @@ final class PromoDetailsViewController: UIViewController, PromoDetailsViewInput 
 
     // MARK: - Conforming of the PromoDetailsViewInput
 
-    func render(model: DataDrivenModel) {
-        guard let model = model as? ViewModel else { return }
-
+    func render(model: ViewModel) {
         title = model.screenTitle
         promoImageView.image = model.image
         promoTitleLabel.text = model.title
@@ -126,7 +124,7 @@ final class PromoDetailsViewController: UIViewController, PromoDetailsViewInput 
 
     // MARK: - Managing the ViewModel
 
-    struct ViewModel: DataDrivenModel {
+    struct ViewModel {
         let screenTitle: String
         let image: UIImage?
         let title: String

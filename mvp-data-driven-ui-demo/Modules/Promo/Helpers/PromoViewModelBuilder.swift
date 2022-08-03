@@ -29,7 +29,7 @@ struct PromoViewModelBuilder {
     ) {
         workingQueue.async {
             let items = promos.map { promo in
-                PromoCellContentView.ViewModel(
+                PromoCell.ViewModel(
                     imageURL: promo.imageURL,
                     title: promo.title,
                     action: Command { onItemTapCommand.execute(with: promo) }

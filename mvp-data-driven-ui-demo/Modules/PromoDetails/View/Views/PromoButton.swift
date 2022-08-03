@@ -1,6 +1,6 @@
 import UIKit
 
-final class PromoButton: UIButton, DataDrivable {
+final class PromoButton: UIButton {
     private var command: Command?
 
     // MARK: - Managing the Initialization
@@ -21,9 +21,7 @@ final class PromoButton: UIButton, DataDrivable {
 
     // MARK: - Conforming of the PromoDetailsViewInput
 
-    func render(model: DataDrivenModel) {
-        guard let model = model as? ViewModel else { return }
-
+    func render(model: ViewModel) {
         // пример применения анимации
         addAnimation(keyPath: #keyPath(UIButton.backgroundColor))
         backgroundColor = model.backgroundColor
@@ -40,7 +38,7 @@ final class PromoButton: UIButton, DataDrivable {
 
     // MARK: - Managing the ViewModel
 
-    enum ViewModel: DataDrivenModel {
+    enum ViewModel {
         case loading
         case pending(Command)
         case active

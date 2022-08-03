@@ -1,6 +1,6 @@
 import UIKit
 
-final class PromoCellContentView: UIView, UIContentView, DataDrivable {
+final class PromoCell: UICollectionViewCell {
     // инкапсуляция настройки вью в месте, где она создается
     // уменьшает и делает код понятнее в методах типа setupView()
     // при необходимости можно использовать lazy var
@@ -21,20 +21,6 @@ final class PromoCellContentView: UIView, UIContentView, DataDrivable {
 
         return label
     }()
-
-    private var currentConfiguration = ViewModel(imageURL: nil, title: "", action: nil)
-
-    var configuration: UIContentConfiguration {
-        get {
-            currentConfiguration
-        }
-
-        set {
-            guard let newConfiguration = newValue as? ViewModel else { return }
-
-            render(model: newConfiguration)
-        }
-    }
 
     // MARK: - Managing the Initialization
 
@@ -100,13 +86,26 @@ final class PromoCellContentView: UIView, UIContentView, DataDrivable {
 
     // MARK: - Conforming of the DataDrivable
 
-    func render(model: DataDrivenModel) {
-        guard let model = model as? ViewModel else { return }
-
-        currentConfiguration = model
-
+    func render(model: ViewModel) {
         model.imageURL.flatMap { promoImageView.image = UIImage(contentsOfFile: $0.path) }
         promoTitleLabel.text = model.title
+    }
+
+    struct ViewModel: Hashable {
+        let imageURL: URL?
+        let title: String
+        let action: Command?
+
+        // MARK: - Conforming of the Hashable
+
+        static func == (lhs: ViewModel, rhs: ViewModel) -> Bool {
+            lhs.imageURL == rhs.imageURL && lhs.title == rhs.title
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(imageURL)
+            hasher.combine(title)
+        }
     }
 
     // MARK: - Managing the Constants

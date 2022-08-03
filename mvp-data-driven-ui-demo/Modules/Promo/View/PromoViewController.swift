@@ -47,9 +47,7 @@ final class PromoViewController: UIViewController, PromoViewInput {
         promoCollectionView
     }
 
-    func render(model: DataDrivenModel) {
-        guard let model = model as? ViewModel else { return }
-
+    func render(model: ViewModel) {
         title = model.title
 
         view.addAnimation(keyPath: #keyPath(UIView.backgroundColor))
@@ -69,7 +67,7 @@ final class PromoViewController: UIViewController, PromoViewInput {
 
     // MARK: - Managing the ViewModel
 
-    struct ViewModel: DataDrivenModel {
+    struct ViewModel {
         let title: String
         var backgroundColor: UIColor
         var isCollectionHidden: Bool

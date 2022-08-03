@@ -1,20 +1,24 @@
 import UIKit
 import DiffableDataSources
 
-private typealias PromoDataSource = CollectionViewDiffableDataSource<Section, PromoCellContentView.ViewModel>
+private typealias PromoDataSource = CollectionViewDiffableDataSource<Section, PromoCell.ViewModel>
 
 private enum Section {
     case main
 }
 
-final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDelegate {
+protocol PromoCollectionAdapterInput: AnyObject {
+    func render(model: PromoCollectionAdapter.ViewModel)
+}
+
+final class PromoCollectionAdapter: NSObject, UICollectionViewDelegate, PromoCollectionAdapterInput {
     private unowned let collectionView: UICollectionView
     private var hasFooter = true
     private var onScrollToEndAction: Command?
 
     // использование Modern cell configuration
-    private let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, PromoCellContentView.ViewModel> { cell, indexPath, model in
-        cell.contentConfiguration = model
+    private let cellRegistration = UICollectionView.CellRegistration<PromoCell, PromoCell.ViewModel> { cell, indexPath, model in
+        cell.render(model: model)
     }
 
     private let footerRegistration = UICollectionView.SupplementaryRegistration<PromoListFooterView>(elementKind: PromoListFooterView.description()) { _, _, _ in }
@@ -79,13 +83,11 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
 
     // MARK: - Conforming of the DataDrivable
 
-    func render(model: DataDrivenModel) {
-        guard let model = model as? ViewModel else { return }
-
+    func render(model: ViewModel) {
         hasFooter = model.hasFooter
         onScrollToEndAction = model.onScrollToEndAction
 
-        var snapshot = DiffableDataSourceSnapshot<Section, PromoCellContentView.ViewModel>()
+        var snapshot = DiffableDataSourceSnapshot<Section, PromoCell.ViewModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(model.items)
         dataSource.apply(snapshot)
@@ -108,8 +110,8 @@ final class PromoCollectionAdapter: NSObject, DataDrivable, UICollectionViewDele
 
     // MARK: - Managing the ViewModel
 
-    struct ViewModel: DataDrivenModel {
-        let items: [PromoCellContentView.ViewModel]
+    struct ViewModel {
+        let items: [PromoCell.ViewModel]
         let hasFooter: Bool
         let onScrollToEndAction: Command?
     }
